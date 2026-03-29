@@ -83,6 +83,10 @@ LOG_CHANNEL = os.environ.get("LOG_CHANNEL", None)  # e.g., "C09LOGCHANNEL"
 # APP INIT
 # ──────────────────────────────────────────────
 
+# Debug: print available environment variables
+print("Available env vars:", [k for k in os.environ.keys() if "SLACK" in k or "STAGING" in k])
+print("BOT token found:", "SLACK_BOT_TOKEN" in os.environ)
+
 app = App(
     token=os.environ["SLACK_BOT_TOKEN"],
     signing_secret=os.environ.get("SLACK_SIGNING_SECRET"),
