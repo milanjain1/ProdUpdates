@@ -35,7 +35,7 @@ CHANNEL_MAP = {
 
     "C0APDJAETQB": {
         "lead_name": "Augie",
-        "lead_icon": "https://framerusercontent.com/images/B8IdPQr7SyPz9eJbBKLU0pcuk.svg",
+        "lead_icon": "https://i.imgur.com/6mNIl9B.png",
     },
 }
  
