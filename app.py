@@ -116,9 +116,7 @@ def distribute_pdf(client, file_info: dict, triggering_message: str | None):
 
     for channel_id, lead_info in CHANNEL_MAP.items():
         try:
-            # Share the already-uploaded file into the customer channel
-            # This avoids re-uploading and keeps a single source file
-            client.files_sharedPublicURL(file=file_id)
+        
 
             # Method 1: Share the existing file to the channel
             # (Slack will show the PDF preview inline)
