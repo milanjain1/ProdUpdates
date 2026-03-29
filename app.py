@@ -34,8 +34,8 @@ CHANNEL_MAP = {
     },
 
     "C0APDJAETQB": {
-        "lead_name": "Harish",
-        "lead_icon": "https://ca.slack-edge.com/T07S39SPCSG-U07RL8E6D8F-ae8e4da3916a-192",
+        "lead_name": "Augie",
+        "lead_icon": "https://framerusercontent.com/images/B8IdPQr7SyPz9eJbBKLU0pcuk.svg",
     },
 }
  
