@@ -116,7 +116,8 @@ def distribute_pdf(client, file_info: dict, triggering_message: str | None):
 
     for channel_id, lead_info in CHANNEL_MAP.items():
         try:
-        
+         if channel_id == STAGING_CHANNEL:
+                continue
 
             # Method 1: Share the existing file to the channel
             # (Slack will show the PDF preview inline)
