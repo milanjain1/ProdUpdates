@@ -7,7 +7,7 @@ Slack bot that distributes product update PDFs to multiple customer channels, po
 1. You drop a PDF in the `#product-updates-staging` channel (with an optional message)
 2. The bot detects it and cross-posts to every customer channel in `CHANNEL_MAP`
 3. Each post appears as the assigned CS lead (custom name + avatar)
-4. A delivery receipt is posted to the log channel
+4. A delivery receipt is posted to the log channel 
 
 ## Setup (15 min)
 
