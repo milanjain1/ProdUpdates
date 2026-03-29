@@ -57,25 +57,11 @@ DEFAULT_MESSAGE = (
 # For avatar URLs:     use the user's Slack profile image URL, or any hosted image
 #
 CHANNEL_MAP = {
-    # "CUSTOMER_CHANNEL_ID": {
-    #     "lead_name": "Display Name",
-    #     "lead_icon": "https://url-to-avatar.png",
-    # },
-    "C04NFI00001": {
-        "lead_name": "Sarah Chen",
-        "lead_icon": "https://ca.slack-edge.com/EXAMPLE-sarah.png",
-    },
-    "C04HIRSCH02": {
-        "lead_name": "James Park",
-        "lead_icon": "https://ca.slack-edge.com/EXAMPLE-james.png",
-    },
-    "C04CRST0003": {
-        "lead_name": "Sarah Chen",
-        "lead_icon": "https://ca.slack-edge.com/EXAMPLE-sarah.png",
-    },
-    # Add more channels here...
-}
-
+        "C0APYMLKCHF": {
+            "lead_name": "Milan",
+            "lead_icon": "https://ca.slack-edge.com/placeholder.png",
+        },
+    }
 # Optional: a channel where the bot logs delivery receipts
 LOG_CHANNEL = os.environ.get("LOG_CHANNEL", None)  # e.g., "C09LOGCHANNEL"
 
