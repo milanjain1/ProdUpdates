@@ -30,7 +30,7 @@ DEFAULT_MESSAGE = (
 CHANNEL_MAP = {
     "C0APYR5741F": {
         "lead_name": "Milan",
-        "lead_icon": "https://ca.slack-edge.com/placeholder.png",
+        "lead_icon": "https://ca.slack-edge.com/T07S39SPCSG-U0AE6GDPWJU-8f38b0dd5b80-512",
     },
 }
  
