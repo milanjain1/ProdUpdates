@@ -57,11 +57,11 @@ DEFAULT_MESSAGE = (
 # For avatar URLs:     use the user's Slack profile image URL, or any hosted image
 #
 CHANNEL_MAP = {
-        "C0APYMLKCHF": {
-            "lead_name": "Milan",
-            "lead_icon": "https://ca.slack-edge.com/placeholder.png",
-        },
-    }
+    "NEW_OUTPUT_CHANNEL_ID": {
+        "lead_name": "Milan",
+        "lead_icon": "https://ca.slack-edge.com/placeholder.png",
+    },
+}
 # Optional: a channel where the bot logs delivery receipts
 LOG_CHANNEL = os.environ.get("LOG_CHANNEL", None)  # e.g., "C09LOGCHANNEL"
 
