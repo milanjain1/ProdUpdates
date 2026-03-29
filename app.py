@@ -32,6 +32,11 @@ CHANNEL_MAP = {
         "lead_name": "Milan",
         "lead_icon": "https://ca.slack-edge.com/T07S39SPCSG-U0AE6GDPWJU-8f38b0dd5b80-512",
     },
+
+    "C0APDJAETQB": {
+        "lead_name": "Harish",
+        "lead_icon": "https://ca.slack-edge.com/T07S39SPCSG-U07RL8E6D8F-ae8e4da3916a-192",
+    },
 }
  
 LOG_CHANNEL = os.environ.get("LOG_CHANNEL", None)
