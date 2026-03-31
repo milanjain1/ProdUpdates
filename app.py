@@ -37,6 +37,26 @@ CHANNEL_MAP = {
         "lead_name": "Augie",
         "lead_icon": "https://i.imgur.com/6mNIl9B.png",
     },
+
+    "C0A4LEVQX88": {
+        "lead_name": "Augie",
+        "lead_icon": "https://i.imgur.com/6mNIl9B.png",
+    },
+
+    "C08KXEY5XFE": {
+        "lead_name": "Augie",
+        "lead_icon": "https://i.imgur.com/6mNIl9B.png",
+    },
+
+    "C089TBQ4YB1": {
+        "lead_name": "Augie",
+        "lead_icon": "https://i.imgur.com/6mNIl9B.png",
+    },
+
+    "C099B8F3LQ6": {
+        "lead_name": "Augie",
+        "lead_icon": "https://i.imgur.com/6mNIl9B.png",
+    },
 }
  
 LOG_CHANNEL = os.environ.get("LOG_CHANNEL", None)
