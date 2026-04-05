@@ -27,7 +27,7 @@ STAGING_CHANNEL = os.environ.get("STAGING_CHANNEL", "C0123STAGING")
 
 DEFAULT_MESSAGE = (
     "New product update just shipped — see the attached PDF "
-    "for everything that's new this month!"
+    "for everything that's new!"
 )
 
 # ── SLACK CHANNELS ──
