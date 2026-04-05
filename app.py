@@ -4,10 +4,19 @@ Product Update PDF Distributor — v2
 Slack Bolt app that listens for a PDF upload in a staging channel,
 then cross-posts it to:
   1. Slack customer channels (as a custom name/avatar)
-  2. Microsoft Teams channels (via incoming webhooks)
+  2. Microsoft Teams channels (via Workflows webhooks)
+
+USAGE:
+  Drop a PDF in the staging channel with a message like:
+    "March Product Updates just shipped! https://drive.google.com/file/d/abc123/view"
+
+  - Slack channels get the native Slack PDF preview
+  - Teams channels get the public link (Google Drive, Dropbox, etc.)
+  - If no public link is included, Teams channels get the Slack permalink as fallback
 """
 
 import os
+import re
 import time
 import logging
 import json
@@ -27,7 +36,7 @@ STAGING_CHANNEL = os.environ.get("STAGING_CHANNEL", "C0123STAGING")
 
 DEFAULT_MESSAGE = (
     "New product update just shipped — see the attached PDF "
-    "for everything that's new!"
+    "for everything that's new this month!"
 )
 
 # ── SLACK CHANNELS ──
@@ -38,19 +47,22 @@ CHANNEL_MAP = {
     #     "lead_name": "Display Name",
     #     "lead_icon": "https://url-to-avatar.png",
     # },
+
+
+      "C0APYR5741F": {
+          "lead_name": "Augie",
+          "lead_icon": "https://i.imgur.com/ZfKwJwH.png",
+      },
 }
 
 # ── TEAMS CHANNELS ──
-# Map a friendly name to the incoming webhook URL for each Teams channel.
-# To get a webhook URL: ask the customer's Teams admin to add an
-# "Incoming Webhook" connector to the channel and send you the URL.
+# Map a friendly name to the Workflows webhook URL for each Teams channel.
+# To get a webhook URL: in Teams, click the ... on the channel -> Workflows ->
+# "Send webhook alerts to a channel" -> copy the generated URL.
 TEAMS_CHANNELS = {
-      "MJ Test 1": "https://default6a68fc6f241a4b2b86bd81627b1344.02.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/cf7e6ca32dff43619ffeec4ef3db1ba6/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Sqf_eSrbfUMqO603IOOWwEYwvS9tnTAu8SCB9Rp7Zrc",
-    # "Customer B": "https://outlook.office.com/webhook/def456...",
+      "MJ Test 1 private": "https://default6a68fc6f241a4b2b86bd81627b1344.02.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/cf7e6ca32dff43619ffeec4ef3db1ba6/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Sqf_eSrbfUMqO603IOOWwEYwvS9tnTAu8SCB9Rp7Zrc",
+    # "Customer B": "https://prod-XX.westus.logic.azure.com:443/workflows/...",
 }
-
-# Optional: URL to the Augment logo (shown as the avatar in Teams messages)
-TEAMS_AVATAR_URL = "https://raw.githubusercontent.com/YOUR_REPO/main/augment-logo.png"
 
 LOG_CHANNEL = os.environ.get("LOG_CHANNEL", None)
 
@@ -76,6 +88,47 @@ def is_pdf(file_info):
         file_info.get("mimetype") == "application/pdf"
         or file_info.get("filetype") == "pdf"
     )
+
+
+def extract_public_link(text):
+    """
+    Extract a public URL from the staging channel message.
+    Looks for any https link that is not a Slack internal URL.
+    """
+    if not text:
+        return None
+
+    # Slack wraps URLs in <url> or <url|label> format
+    urls = re.findall(r'<(https?://[^>|]+)', text)
+    if not urls:
+        # Also try bare URLs
+        urls = re.findall(r'(https?://\S+)', text)
+
+    for url in urls:
+        # Skip Slack internal links
+        if "slack.com" in url or "slack-edge.com" in url:
+            continue
+        return url
+
+    return None
+
+
+def extract_message_without_link(text):
+    """
+    Return the message text with the public URL removed,
+    so the posted message is clean.
+    """
+    if not text:
+        return None
+
+    # Remove Slack-formatted URLs <url> or <url|label>
+    cleaned = re.sub(r'<https?://[^>]+>', '', text)
+    # Remove bare URLs
+    cleaned = re.sub(r'https?://\S+', '', cleaned)
+    # Clean up extra whitespace
+    cleaned = cleaned.strip()
+
+    return cleaned if cleaned else None
 
 
 def distribute_to_slack(client, file_info, message_text):
@@ -115,15 +168,18 @@ def distribute_to_slack(client, file_info, message_text):
     return results
 
 
-def distribute_to_teams(file_info, message_text):
-    """Post the PDF to all Teams channels via incoming webhooks."""
+def distribute_to_teams(file_info, message_text, public_link):
+    """Post the PDF to all Teams channels via Workflows webhooks."""
     file_name = file_info.get("name", "Product Update.pdf")
     permalink = file_info.get("permalink", "")
+
+    # Use the public link for Teams if available, otherwise fall back to Slack permalink
+    pdf_url = public_link or permalink
     results = {"success": [], "failed": []}
 
     for channel_name, webhook_url in TEAMS_CHANNELS.items():
         try:
-            # Teams Adaptive Card with message + PDF link
+            # Teams Adaptive Card with message + clickable button for the PDF
             card = {
                 "type": "message",
                 "attachments": [
@@ -140,12 +196,12 @@ def distribute_to_teams(file_info, message_text):
                                     "wrap": True,
                                     "size": "Medium",
                                 },
+                            ],
+                            "actions": [
                                 {
-                                    "type": "TextBlock",
-                                    "text": f"[{file_name}]({permalink})",
-                                    "wrap": True,
-                                    "spacing": "Medium",
-                                    "weight": "Bolder",
+                                    "type": "Action.OpenUrl",
+                                    "title": f"Open {file_name}",
+                                    "url": pdf_url,
                                 },
                             ],
                         },
@@ -246,11 +302,21 @@ def handle_file_shared(event, client, say):
             except Exception:
                 pass
 
-    message_text = triggering_message or DEFAULT_MESSAGE
+    # Extract public link for Teams (Google Drive, Dropbox, etc.)
+    public_link = extract_public_link(triggering_message)
+
+    # Clean message text (remove the URL so it doesn't appear in the posted message)
+    clean_message = extract_message_without_link(triggering_message)
+    message_text = clean_message or DEFAULT_MESSAGE
+
+    if public_link:
+        logger.info(f"Public link found for Teams: {public_link}")
+    else:
+        logger.info("No public link found — Teams will use Slack permalink as fallback")
 
     # Distribute to both platforms
     slack_results = distribute_to_slack(client, file_info, message_text)
-    teams_results = distribute_to_teams(file_info, message_text)
+    teams_results = distribute_to_teams(file_info, message_text, public_link)
 
     # Merge results
     all_results = {
