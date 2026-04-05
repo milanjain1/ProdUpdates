@@ -53,6 +53,12 @@ CHANNEL_MAP = {
           "lead_name": "Augie",
           "lead_icon": "https://i.imgur.com/ZfKwJwH.png",
       },
+
+
+      "C0AQXNYB8LE": {
+          "lead_name": "Augie test channel",
+          "lead_icon": "https://i.imgur.com/ZfKwJwH.png",
+      },
 }
 
 # ── TEAMS CHANNELS ──
