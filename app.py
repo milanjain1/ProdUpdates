@@ -35,8 +35,7 @@ logger = logging.getLogger(__name__)
 STAGING_CHANNEL = os.environ.get("STAGING_CHANNEL", "C0123STAGING")
 
 DEFAULT_MESSAGE = (
-    "New product update just shipped — see the attached PDF "
-    "for everything that's new this month!"
+    "Another month in the books! See the attached PDF for everything that's new with Augie :augment-new:"
 )
 
 # ── SLACK CHANNELS ──
