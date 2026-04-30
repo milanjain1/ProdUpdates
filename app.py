@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 STAGING_CHANNEL = os.environ.get("STAGING_CHANNEL", "C0123STAGING")
 
 DEFAULT_MESSAGE = (
-    "Another month in the books! See the attached PDF for everything that's new with Augie :augment-new:"
+    "Another month in the books — see the attached PDF for everything that's new with Augie!"
 )
 
 # ── SLACK CHANNELS ──
@@ -58,6 +58,61 @@ CHANNEL_MAP = {
           "lead_name": "Augie test channel",
           "lead_icon": "https://i.imgur.com/ZfKwJwH.png",
       },
+
+      
+      "C0A4LEVQX88": {
+          "lead_name": "Augie",
+          "lead_icon": "https://i.imgur.com/ZfKwJwH.png",
+      },
+
+
+      "C09EURS3TC7": {
+          "lead_name": "Augie",
+          "lead_icon": "https://i.imgur.com/ZfKwJwH.png",
+      },
+
+
+      "C08KXEY5XFE": {
+          "lead_name": "Augie",
+          "lead_icon": "https://i.imgur.com/ZfKwJwH.png",
+      },
+
+
+      "C089TBQ4YB1": {
+          "lead_name": "Augie",
+          "lead_icon": "https://i.imgur.com/ZfKwJwH.png",
+      },
+
+
+      "C099B8F3LQ6": {
+          "lead_name": "Augie",
+          "lead_icon": "https://i.imgur.com/ZfKwJwH.png",
+      },
+
+
+      "C09EAMZ9K9T": {
+          "lead_name": "Augie",
+          "lead_icon": "https://i.imgur.com/ZfKwJwH.png",
+      },
+
+
+       "C08Q614K5UM": {
+          "lead_name": "Augie",
+          "lead_icon": "https://i.imgur.com/ZfKwJwH.png",
+      },
+
+
+      "C08D2QV6U6S": {
+          "lead_name": "Augie",
+          "lead_icon": "https://i.imgur.com/ZfKwJwH.png",
+      },
+
+  
+      "C08TSEQAHGX": {
+          "lead_name": "Augie",
+          "lead_icon": "https://i.imgur.com/ZfKwJwH.png",
+      },
+  
 }
 
 # ── TEAMS CHANNELS ──
